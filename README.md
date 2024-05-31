@@ -114,10 +114,7 @@ Please follow preprocessing preprocess of [ALTO's script](https://github.com/wzh
 Or you can modify `[src/generate_scannet.py](src/generate_scannet.py)` file to designate your own directory path.
 
 
-<!-- ### Matterport -->
-
-
-## Pretrained Models
+<!-- ## Pretrained Models
 
 You can download every pretrained checkpoint in [here](https://github.com/vision3d-lab/ditto/releases/download/checkpoints/ditto_checkpoints.zip).
 
@@ -147,7 +144,7 @@ Then unzip in the `results` folder so that the directory structure is following:
                 ...
             + 240301_0000_01.sparse
                 ...
-```
+``` -->
 
 
 
