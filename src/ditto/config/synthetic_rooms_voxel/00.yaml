@@ -1,0 +1,183 @@
+exp_dir: results/ditto/synthetic_rooms_voxel
+epochs: &epochs 2500
+seed: 0
+memo: 
+
+model:
+  target: src.ditto.ulto.ULTO
+  params:
+    encoder:
+      target: src.ditto.encoder.FKAConvEncoder3d
+      params:
+        dim: 32
+        dim_in: 3
+        res: 64
+        padding: 0.1
+        n_blocks: 5
+        act_fn: relu
+    unet:
+      target: src.ditto.unet3d.UNet3d
+      params:
+        dim: 32
+        dim_in: 32
+        dim_out: 32
+        depth: 4
+        act_fn: relu
+        padding: 0.1
+        
+        window_size: 500
+        head_dim: 32
+        rotary_relative_pe: no
+    decoder:
+      target: src.ditto.decoder.ULTODecoder3d
+      params:
+        dim: 32
+        dim_out: 1
+        n_blocks: 4
+        padding: 0.1
+        act_fn: relu
+        num_neighbors: 32
+        head_dim: 32
+
+preprocessor:
+  target: src.ditto.ulto.Preprocessor
+
+trainer:
+  target: src.ditto.ulto.Trainer
+  params:
+    tqdm_ncols: 152
+    n_samples_per_class: 8
+    find_unused_parameters: no
+    mixed_precision: yes
+    clip_grad: 0.0
+    num_saves: 3
+    monitor: iou
+    small_is_better: no
+    gradient_accumulation_steps: 1
+    
+    loss_type: mean
+
+dataset:
+  target: src.ditto.dataset.dataset.load_dataloaders
+  params:
+    batch_size: 32
+    num_workers: 8
+
+optim:
+  target: torch.optim.Adam
+  params:
+    lr: 1.e-4
+    weight_decay: 0.0
+
+sched:
+  target: torch.optim.lr_scheduler.CosineAnnealingLR
+  params:
+    T_max: 2500
+    eta_min: 1.e-8
+    
+  step_on_batch: no
+  step_on_epoch: yes
+
+cfg:
+  data:
+    classes:
+    - rooms_04
+    - rooms_05
+    - rooms_06
+    - rooms_07
+    - rooms_08
+    dataset: Shapes3D
+    dim: 3
+    img_augment: false
+    img_folder: img
+    img_size: 224
+    img_with_camera: false
+    input_type: pointcloud
+    model_file: model.off
+    multi_files: 10
+    n_views: 24
+    padding: 0.1
+    path: ../data/synthetic_room_dataset
+    pointcloud_chamfer_file: pointcloud
+    pointcloud_file: pointcloud
+    pointcloud_n: 10000
+    pointcloud_noise: 0.005
+    pointcloud_target_n: 1024
+    points_file: points_iou
+    points_iou_file: points_iou
+    points_subsample: 2048
+    points_unpackbits: true
+    test_split: test
+    train_split: train
+    val_split: val
+    voxels_file: null
+    watertight_file: model_watertight.off
+    watertight_path: data/watertight
+  generation:
+    batch_size: 100000
+    copy_groundtruth: false
+    copy_input: true
+    generate_mesh: true
+    generate_pointcloud: true
+    generation_dir: generation
+    latent_H: 8
+    latent_W: 8
+    latent_number: 4
+    latent_nx: 2
+    latent_ny: 2
+    latent_repeat: true
+    n_x: 128
+    n_z: 1
+    refine: false
+    refinement_step: 0
+    resolution_0: 32
+    simplify_nfaces: null
+    sliding_window: false
+    upsampling_steps: 3
+    use_sampling: false
+    vis_n_outputs: 2
+  method: conv_onet
+  model:
+    c_dim: 32
+    decoder: simple_local_attention_sub
+    decoder_kwargs:
+      K_neighbors: 10
+      hidden_size: 32
+      plane_type:
+      - xz
+      - xy
+      - yz
+      sample_mode: bilinear
+    encoder: pointnet_local_pool
+    encoder_kwargs:
+      hidden_dim: 32
+      plane_resolution: 128
+      plane_type:
+      - xz
+      - xy
+      - yz
+      unet: true
+      unet_kwargs:
+        depth: 4
+        merge_mode: concat
+        start_filts: 32
+    multi_gpu: false
+  test:
+    eval_mesh: true
+    eval_pointcloud: false
+    model_file: model_best.pt
+    remove_wall: true
+    threshold: 0.2
+  training:
+    backup_every: 10000
+    batch_size: 24
+    checkpoint_every: 2000
+    eval_sample: false
+    model_selection_metric: iou
+    model_selection_mode: maximize
+    n_workers: 8
+    n_workers_val: 4
+    out_dir: out/pointcloud/room_3plane_attention_sub
+    print_every: 100
+    validate_every: 5000
+    visualize_every: 100000
