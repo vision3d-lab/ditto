@@ -253,15 +253,17 @@ Please consider in mind to refer following works too.
 ## Please Give us a Star
 
 <!-- ![click_on_a_star](assets/click_on_a_star.webp) -->
-<div align="center">
+<!-- <div align="center">
     <img src="assets/click_on_a_star2.webp" width="384px">
 </div>
 
-We are hungry...
+We are hungry... -->
 
 <!-- Please click on a star. -->
 
 <!-- Your finger movements will help humans discover light in a dark sky and imagine stars hidden by dust. -->
+
+<b style="color: red;">Please give us a ⭐ star if you think our project helpful!!</b>
 
 ## BibTeX
 
@@ -275,4 +277,3 @@ We are hungry...
       primaryClass={cs.CV}
 }
 ```
-
