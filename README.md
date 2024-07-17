@@ -7,6 +7,7 @@ Official Pytorch implementation of **DITTO: Dual and Integrated Latent Topologie
 <a href="https://vision3d-lab.github.io/ditto">Project Page</a>
 </h2>
 
+
 <!-- demo image -->
 
 <!-- TODO ditto icon -->
@@ -20,40 +21,42 @@ Official Pytorch implementation of **DITTO: Dual and Integrated Latent Topologie
 <!-- demo script (google colab?) -->
 
 
+
+
+## BibTeX
+
+```bib
+@misc{shim2024ditto,
+      title={DITTO: Dual and Integrated Latent Topologies for Implicit 3D Reconstruction}, 
+      author={Jaehyeok Shim and Kyungdon Joo},
+      year={2024},
+      eprint={2403.05005},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV}
+}
+```
+
+**Please consider click the ⭐STAR⭐ if you think our project helpful!!**
+
+
 ## Installation
 
-### Requirements - Hardware-Dependent Packages
+### Requirements
 
 Please install the following packages as your own.
-
 - [pytorch](https://pytorch.org/get-started/previous-versions/) (we have tested with version of 2.0.1 with CUDA toolkit 11.7)
 - [pytorch3d](https://github.com/facebookresearch/pytorch3d/blob/main/INSTALL.md)
 - [xformers](https://github.com/facebookresearch/xformers?tab=readme-ov-file#installing-xformers)
 
-### Requirements - Python Packages
-
-- h5py
-- einops
-- scipy
-- pykdtree
-- kitsu==0.1.2
-
-Please install following packages by running following command:
+Then, install python packages:
 ```sh
-pip install h5py einops scipy pykdtree kitsu==0.1.2
+pip install h5py einops scipy pykdtree open3d==0.18.0 kitsu==0.1.2
 ```
 
-`kitsu` is individually developed and used library, which is pack of boilerplate codes like PyTorchLightning and HuggingFace transformers developed by `Kitsunetic`.
-
-### Requirements - Cython Packages
-
-Please run the following command:
-
+Then, compile cython package:
 ```sh
 python setup.py build_ext --inplace
 ```
-
-
 
 ## Datasets
 
@@ -114,12 +117,15 @@ Please follow preprocessing preprocess of [ALTO's script](https://github.com/wzh
 Or you can modify `[src/generate_scannet.py](src/generate_scannet.py)` file to designate your own directory path.
 
 
-<!-- ## Pretrained Models
+## Pretrained Models
 
-You can download every pretrained checkpoint in [here](https://github.com/vision3d-lab/ditto/releases/download/checkpoints/ditto_checkpoints.zip).
+You can download every pretrained checkpoint in [here](https://github.com/vision3d-lab/ditto/releases/download/checkpoint/ditto_checkpoints.zip).
+```sh
+wget https://github.com/vision3d-lab/ditto/releases/download/checkpoint/ditto_checkpoints.zip
+unzip ditto_checkpoints.zip -d results
+```
 
-Then unzip in the `results` folder so that the directory structure is following:
-
+Then, the checkpoints will be located like:
 ```
 + results
     + ditto
@@ -144,7 +150,11 @@ Then unzip in the `results` folder so that the directory structure is following:
                 ...
             + 240301_0000_01.sparse
                 ...
-``` -->
+```
+
+## Demo
+
+You can find ShapeNet reconstruction demo using DITTO pretrained model in this [notebook](./demo.ipynb).
 
 
 
@@ -172,6 +182,8 @@ These commands will create directory named `./results/ditto/shapenet/{yaml_file_
 
 ### Training on ShapeNet
 
+Please replace `{}` part into the GPU numbers.
+
 ```sh
 # 3K points & 0.005 noise
 python main.py src/ditto/config/shapenet/00.yaml --gpus {}
@@ -184,6 +196,8 @@ python main.py src/ditto/config/shapenet/02.pts300yaml --gpus {}
 ```
 
 ### Training on SyntheticRooms
+
+Please replace `{}` part into the GPU numbers.
 
 ```sh
 # Triplane, 10K points & 0.005 noise
@@ -250,7 +264,7 @@ Please consider in mind to refer following works too.
 - [GeoUDF (ICCV 2023)](https://github.com/rsy6318/GeoUDF)
 
 
-## Please Give us a Star
+<!-- ## Please Give us a Star -->
 
 <!-- ![click_on_a_star](assets/click_on_a_star.webp) -->
 <!-- <div align="center">
@@ -262,18 +276,3 @@ We are hungry... -->
 <!-- Please click on a star. -->
 
 <!-- Your finger movements will help humans discover light in a dark sky and imagine stars hidden by dust. -->
-
-<b style="color: red;">Please give us a ⭐ star if you think our project helpful!!</b>
-
-## BibTeX
-
-```bib
-@misc{shim2024ditto,
-      title={DITTO: Dual and Integrated Latent Topologies for Implicit 3D Reconstruction}, 
-      author={Jaehyeok Shim and Kyungdon Joo},
-      year={2024},
-      eprint={2403.05005},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV}
-}
-```
